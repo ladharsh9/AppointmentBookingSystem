@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<AppointmentBookingSystem.Models.Slot>
+
+<div style="display:flex; justify-content: space-between;">
+<h2>Available Slots</h2>
+<div>
+    <button class="btn-primary">
+        <a class="nav-link text-light" asp-controller="Appointment" asp-action="MyAppointments">My Appointments</a>
+    </button>
+<button class="btn-danger"><a class="nav-link text-light" asp-controller="Account" asp-action="Logout">Logout</a></button>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr><th>Start Time</th><th>End Time</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var slot in Model)
+        {
+            <tr>
+                <td>@slot.StartTime</td>
+                <td>@slot.EndTime</td>
+                <td>
+                    @using (Html.BeginForm("Book", "Appointment", FormMethod.Post))
+                    {
+                        @Html.Hidden("slotId", slot.Id)
+                        <button type="submit" class="btn btn-success">Book</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["Message"]
+    </div>
+}

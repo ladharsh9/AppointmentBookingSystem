@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<AppointmentBookingSystem.Models.Appointment>
+<div style="display:flex; justify-content: space-between;">
+<h2>My Booked Appointments</h2>
+<button class="btn-danger"><a class="nav-link text-light" asp-controller="Account" asp-action="Logout">Logout</a></button>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.Slot.StartTime</td>
+                <td>@appointment.Slot.EndTime</td>
+                <td>@(appointment.Slot.IsBooked ? "Booked" : "Available")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<AppointmentBookingSystem.Models.Slot>
+
+
+          
+
+
+<div style="display:flex; justify-content: space-between;">
+    <h2>Manage Slots</h2> <div>
+        <button class="btn-primary">
+            <a class="nav-link text-light" asp-controller="Appointment" asp-action="AddSlot">Add Slot</a>
+        </button>
+        <button class="btn-danger"><a class="nav-link text-light" asp-controller="Account" asp-action="Logout">Logout</a></button>
+        </div>
+    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Is Booked</th>
+           
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var slot in Model)
+        {
+            <tr>
+                <td>@slot.StartTime</td>
+                <td>@slot.EndTime</td>
+                <td>@slot.IsBooked</td>
+                <td>
+                    <a asp-action="EditSlot" asp-route-id="@slot.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="DeleteSlot" asp-route-id="@slot.Id" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
