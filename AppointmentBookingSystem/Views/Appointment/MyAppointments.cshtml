@@ -6,7 +6,12 @@
 @model List<AppointmentBookingSystem.Models.Appointment>
 <div style="display:flex; justify-content: space-between;">
 <h2>My Booked Appointments</h2>
+<div>
+    <button class="btn-primary">
+        <a class="nav-link text-light" asp-controller="Appointment" asp-action="Book">Book Appointments</a>
+    </button>
 <button class="btn-danger"><a class="nav-link text-light" asp-controller="Account" asp-action="Logout">Logout</a></button>
+    </div>
 </div>
 
 <table class="table">

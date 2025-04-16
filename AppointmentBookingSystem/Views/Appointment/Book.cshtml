@@ -17,7 +17,7 @@
 
 <table class="table">
     <thead>
-        <tr><th>Start Time</th><th>End Time</th><th>Action</th></tr>
+        <tr><th>Start Time</th><th>End Time</th><th>Status</th><th>Action</th></tr>
     </thead>
     <tbody>
         @foreach (var slot in Model)
@@ -25,13 +25,39 @@
             <tr>
                 <td>@slot.StartTime</td>
                 <td>@slot.EndTime</td>
-                <td>
+                @*<td>
                     @using (Html.BeginForm("Book", "Appointment", FormMethod.Post))
                     {
                         @Html.Hidden("slotId", slot.Id)
                         <button type="submit" class="btn btn-success">Book</button>
                     }
+                </td>*@
+
+                <td>
+                    @if (slot.IsBooked)
+                    {
+                        <span class="text-danger">Booked</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Available</span>
+                    }
                 </td>
+                <td>
+                    @if (!slot.IsBooked)
+                    {
+                        @using (Html.BeginForm("Book", "Appointment", FormMethod.Post))
+                        {
+                            @Html.Hidden("slotId", slot.Id)
+                            <button type="submit" class="btn btn-success">Book</button>
+                        }
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary" disabled>Booked</button>
+                    }
+                </td>
+
             </tr>
         }
     </tbody>

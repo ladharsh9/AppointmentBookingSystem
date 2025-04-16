@@ -21,7 +21,7 @@ namespace AppointmentBookingSystem.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            var slots = _context.Slots.Where(s => !s.IsBooked).ToList();
+            var slots = _context.Slots.ToList(); //.Where(s => !s.IsBooked)
             return View(slots);
         }
         [HttpPost]
