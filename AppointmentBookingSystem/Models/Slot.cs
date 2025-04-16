@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppointmentBookingSystem.Models
 {
+    [Index(nameof(StartTime), IsUnique = true)]
     public class Slot
     {
         public int Id { get; set; }

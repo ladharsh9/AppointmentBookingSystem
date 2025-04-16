@@ -92,6 +92,20 @@ namespace AppointmentBookingSystem.Controllers
 
             if (ModelState.IsValid)
             {
+                var existingSlot = _context.Slots
+                .FirstOrDefault(s => s.StartTime == slot.StartTime);
+
+                if (existingSlot != null)
+                {
+                    ViewBag.Error = "A slot with this time already exists.";
+                    return View();
+                }
+
+                // Ensure 1-hour duration is set automatically
+                slot.EndTime = slot.StartTime.AddHours(1);
+                slot.IsBooked = false;
+
+
                 _context.Slots.Add(slot);
                 _context.SaveChanges();
                 ViewBag.Message = "Slot added successfully!";
@@ -127,6 +141,19 @@ namespace AppointmentBookingSystem.Controllers
 
             if (ModelState.IsValid)
             {
+                var existingSlot = _context.Slots
+               .FirstOrDefault(s => s.StartTime == updatedSlot.StartTime);
+
+                if (existingSlot != null)
+                {
+                    ViewBag.Error = "A slot with this time already exists.";
+                    return View();
+                }
+
+                // Ensure 1-hour duration is set automatically
+                updatedSlot.EndTime = updatedSlot.StartTime.AddHours(1);
+                updatedSlot.IsBooked = false;
+
                 _context.Slots.Update(updatedSlot);
                 _context.SaveChanges();
                 return RedirectToAction("ManageSlots");
