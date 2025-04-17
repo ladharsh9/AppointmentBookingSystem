@@ -46,23 +46,53 @@ namespace AppointmentBookingSystem.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            var slot = _context.Slots.Find(slotId);
-            if (slot != null && !slot.IsBooked)
+            //var slot = _context.Slots.Find(slotId);
+
+            //if (slot != null && !slot.IsBooked)
+            //{
+            //    slot.IsBooked = true;
+            //    _context.Appointments.Add(new Appointment
+            //    {
+            //        UserId = userId.Value,
+            //        SlotId = slotId
+            //    });
+
+            //    _context.SaveChanges();
+            //    ViewBag.Message = "Appointment Booked!";
+            //    TempData["Message"] = "Appointment Booked successfully!";
+            //}
+           //return RedirectToAction("Book");
+
+            var slot = _context.Slots.FirstOrDefault(s => s.Id == slotId);
+            if (slot == null || slot.IsBooked)
             {
-                slot.IsBooked = true;
-
-                _context.Appointments.Add(new Appointment
-                {
-                    UserId = userId.Value,
-                    SlotId = slotId
-                });
-
-                _context.SaveChanges();
-                ViewBag.Message = "Appointment Booked!";
-                TempData["Message"] = "Appointment Booked successfully!";
+                TempData["Message"] = "Slot is already booked!";
+                return RedirectToAction("Book");
+            }
+            // Check if this user already has an appointment for the same slot
+            bool alreadyBooked = _context.Appointments.Any(a => a.SlotId == slotId);
+            if (alreadyBooked)
+            {
+                TempData["Message"] = "This slot has already been booked!";
+                return RedirectToAction("Book");
             }
 
+            // Create appointment
+            var appointment = new Appointment
+            {
+                SlotId = slotId,
+                UserId = userId.Value
+            };
+
+            // Mark slot as booked
+            slot.IsBooked = true;
+            _context.Appointments.Add(appointment);
+            _context.SaveChanges();
+
+            TempData["Message"] = "Appointment booked successfully!";
             return RedirectToAction("Book");
+        
+          
         }
         public ActionResult MyAppointments()
         {
@@ -141,18 +171,50 @@ namespace AppointmentBookingSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingSlot = _context.Slots
-               .FirstOrDefault(s => s.StartTime == updatedSlot.StartTime);
+                // var existingSlot = _context.Slots
+                //.FirstOrDefault(s => s.StartTime == updatedSlot.StartTime);
 
-                if (existingSlot != null)
+                // if (existingSlot != null)
+                // {
+                //     ViewBag.Error = "A slot with this time already exists.";
+                //     return View();
+                // }
+
+                //is booked logic updated
+                //var duplicateSlot = _context.Slots
+                // .FirstOrDefault(s => s.StartTime == updatedSlot.StartTime && s.Id != updatedSlot.Id);
+                //if (duplicateSlot != null)
+                //{
+                //    ViewBag.Error = "A slot with this time already exists.";
+                //    return View(updatedSlot); // return the current model for user to fix
+                //}
+
+                // Exclude the current slot itself in the check
+                var conflictingSlot = _context.Slots
+                    .FirstOrDefault(s => s.StartTime == updatedSlot.StartTime && s.Id != updatedSlot.Id);
+
+                if (conflictingSlot != null)
                 {
                     ViewBag.Error = "A slot with this time already exists.";
-                    return View();
+                    return View(updatedSlot);
                 }
 
-                // Ensure 1-hour duration is set automatically
                 updatedSlot.EndTime = updatedSlot.StartTime.AddHours(1);
-                updatedSlot.IsBooked = false;
+                // updatedSlot.IsBooked = false;
+
+                // If admin unchecks 'IsBooked', remove the associated Appointment
+                if (!updatedSlot.IsBooked)
+                {
+                    var existingAppointment = _context.Appointments
+                        .FirstOrDefault(a => a.SlotId == updatedSlot.Id);
+
+                    if (existingAppointment != null)
+                    {
+                        _context.Appointments.Remove(existingAppointment);
+                    }
+                }
+
+
 
                 _context.Slots.Update(updatedSlot);
                 _context.SaveChanges();
