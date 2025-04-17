@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model List<AppointmentBookingSystem.Models.Slot>
+@model List<AppointmentBookingSystem.Models.ManageDTO>
 
 
           
@@ -22,8 +22,8 @@
         <tr>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Is Booked</th>
-           
+            <th>Is Booked?</th>
+           <th>Username</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -33,7 +33,9 @@
             <tr>
                 <td>@slot.StartTime</td>
                 <td>@slot.EndTime</td>
-                <td>@slot.IsBooked</td>
+                @* <td>@slot.IsBooked</td>*@
+                <td>@(slot.IsBooked ? "Yes" : "No")</td>
+                <td>@(slot.UserName ?? "-")</td>
                 <td>
                     <a asp-action="EditSlot" asp-route-id="@slot.Id" class="btn btn-warning">Edit</a>
                     <a asp-action="DeleteSlot" asp-route-id="@slot.Id" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>

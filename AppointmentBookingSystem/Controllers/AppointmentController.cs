@@ -148,7 +148,18 @@ namespace AppointmentBookingSystem.Controllers
             if (HttpContext.Session.GetString("IsAdmin") != "True")
                 return Unauthorized();
 
-            var slots = _context.Slots.ToList();
+            var slots = _context.Slots
+                .Select(s => new ManageDTO//new
+                {
+                    Id = s.Id,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime,
+                    IsBooked = s.IsBooked,
+                    UserName = _context.Appointments
+                        .Where(a => a.SlotId == s.Id)
+                        .Select(a => a.User.UserName)
+                        .FirstOrDefault()//till here
+                }).ToList();
             return View(slots);
         }
         public IActionResult EditSlot(int id)
