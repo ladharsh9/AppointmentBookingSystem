@@ -20,6 +20,7 @@
             <th>Start Time</th>
             <th>End Time</th>
             <th>Status</th>
+           <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,13 @@
                 <td>@appointment.Slot.StartTime</td>
                 <td>@appointment.Slot.EndTime</td>
                 <td>@(appointment.Slot.IsBooked ? "Booked" : "Available")</td>
+                <td>
+                    @using (Html.BeginForm("Cancel", "Appointment", FormMethod.Post))
+                    {
+                        @Html.Hidden("appointmentId", appointment.Id)
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel</button>
+                    }
+                </td>
             </tr>
         }
     </tbody>

@@ -20,10 +20,11 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Username</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Is Booked?</th>
-           <th>Username</th>
+            <th>Booked?</th>
+          
             <th>Actions</th>
         </tr>
     </thead>
@@ -31,11 +32,12 @@
         @foreach (var slot in Model)
         {
             <tr>
+                <td>@(slot.UserName ?? "-")</td>
                 <td>@slot.StartTime</td>
                 <td>@slot.EndTime</td>
                 @* <td>@slot.IsBooked</td>*@
                 <td>@(slot.IsBooked ? "Yes" : "No")</td>
-                <td>@(slot.UserName ?? "-")</td>
+               
                 <td>
                     <a asp-action="EditSlot" asp-route-id="@slot.Id" class="btn btn-warning">Edit</a>
                     <a asp-action="DeleteSlot" asp-route-id="@slot.Id" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
