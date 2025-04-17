@@ -69,7 +69,7 @@ namespace AppointmentBookingSystem.Controllers
                 TempData["Message"] = "Slot is already booked!";
                 return RedirectToAction("Book");
             }
-            // Check if this user already has an appointment for the same slot
+            // Check if user already has an appointment for the same slot
             bool alreadyBooked = _context.Appointments.Any(a => a.SlotId == slotId);
             if (alreadyBooked)
             {
@@ -131,7 +131,7 @@ namespace AppointmentBookingSystem.Controllers
                     return View();
                 }
 
-                // Ensure 1-hour duration is set automatically
+                //  1-hour duration is set 
                 slot.EndTime = slot.StartTime.AddHours(1);
                 slot.IsBooked = false;
 
@@ -247,7 +247,32 @@ namespace AppointmentBookingSystem.Controllers
             return RedirectToAction("ManageSlots");
         }
 
+        [HttpPost]
+        public IActionResult Cancel(int appointmentId)
+        {
+            int userId = (int)HttpContext.Session.GetInt32("UserId");
+
+            var appointment = _context.Appointments
+                .Include(a => a.Slot)
+                .FirstOrDefault(a => a.Id == appointmentId && a.UserId == userId);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            
+            if (appointment.Slot != null)
+            {
+                appointment.Slot.IsBooked = false;
+            }
+
+            // Remove the appointment
+            _context.Appointments.Remove(appointment);
+            _context.SaveChanges();
+
+           // TempData["Message"] = "Appointment cancelled successfully.";
+            return RedirectToAction("MyAppointments");
+        }
 
 
     }
-}
+    }

@@ -19,6 +19,7 @@
         <input asp-for="EndTime" type="datetime-local" class="form-control" />
     </div><br/>
     <button type="submit" class="btn btn-primary">Add Slot</button>
+            <button type="reset" class="btn btn-secondary"> <a asp-controller="Appointment" asp-action="ManageSlots" style="color:white; text-decoration:none;">Cancel</a></button>
 </form>
 </div></div>
 @if (ViewBag.Error != null)
