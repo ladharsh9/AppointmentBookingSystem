@@ -21,9 +21,10 @@
     <thead>
         <tr>
             <th>Username</th>
+            <th>Booked</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Booked?</th>
+           
           
             <th>Actions</th>
         </tr>
@@ -33,10 +34,11 @@
         {
             <tr>
                 <td>@(slot.UserName ?? "-")</td>
+                <td>@(slot.IsBooked ? "Yes" : "No")</td>
                 <td>@slot.StartTime</td>
                 <td>@slot.EndTime</td>
                 @* <td>@slot.IsBooked</td>*@
-                <td>@(slot.IsBooked ? "Yes" : "No")</td>
+               
                
                 <td>
                     <a asp-action="EditSlot" asp-route-id="@slot.Id" class="btn btn-warning">Edit</a>

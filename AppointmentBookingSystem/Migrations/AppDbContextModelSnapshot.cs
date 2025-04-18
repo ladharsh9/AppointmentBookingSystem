@@ -67,6 +67,9 @@ namespace AppointmentBookingSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StartTime")
+                        .IsUnique();
+
                     b.ToTable("Slots");
                 });
 

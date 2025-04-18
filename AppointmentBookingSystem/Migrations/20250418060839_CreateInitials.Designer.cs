@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppointmentBookingSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250416050853_CreateInitials")]
+    [Migration("20250418060839_CreateInitials")]
     partial class CreateInitials
     {
         /// <inheritdoc />
@@ -70,6 +70,9 @@ namespace AppointmentBookingSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StartTime")
+                        .IsUnique();
+
                     b.ToTable("Slots");
                 });
 
@@ -80,6 +83,9 @@ namespace AppointmentBookingSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
