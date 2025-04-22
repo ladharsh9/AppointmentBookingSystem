@@ -17,12 +17,13 @@
 
 <table class="table">
     <thead>
-        <tr><th>Start Time</th><th>End Time</th><th>Status</th><th>Action</th></tr>
+        <tr><th>Doctor Name</th><th>Start Time</th><th>End Time</th><th>Status</th><th>Action</th></tr>
     </thead>
     <tbody>
         @foreach (var slot in Model)
         {
             <tr>
+                <td>@slot.DoctorName</td>
                 <td>@slot.StartTime</td>
                 <td>@slot.EndTime</td>
                 @*<td>
