@@ -189,25 +189,7 @@ namespace AppointmentBookingSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                // var existingSlot = _context.Slots
-                //.FirstOrDefault(s => s.StartTime == updatedSlot.StartTime);
-
-                // if (existingSlot != null)
-                // {
-                //     ViewBag.Error = "A slot with this time already exists.";
-                //     return View();
-                // }
-
-                //is booked logic updated
-                //var duplicateSlot = _context.Slots
-                // .FirstOrDefault(s => s.StartTime == updatedSlot.StartTime && s.Id != updatedSlot.Id);
-                //if (duplicateSlot != null)
-                //{
-                //    ViewBag.Error = "A slot with this time already exists.";
-                //    return View(updatedSlot); // return the current model for user to fix
-                //}
-
-                // Exclude the current slot itself in the check
+               
                 var conflictingSlot = _context.Slots
                     .FirstOrDefault(s => s.StartTime == updatedSlot.StartTime && s.Id != updatedSlot.Id);
 
@@ -218,9 +200,7 @@ namespace AppointmentBookingSystem.Controllers
                 }
 
                 updatedSlot.EndTime = updatedSlot.StartTime.AddHours(1);
-                // updatedSlot.IsBooked = false;
-
-                // If admin unchecks 'IsBooked', remove the associated Appointment
+                
                 if (!updatedSlot.IsBooked)
                 {
                     var existingAppointment = _context.Appointments
@@ -272,11 +252,11 @@ namespace AppointmentBookingSystem.Controllers
                 appointment.Slot.IsBooked = false;
             }
 
-            // Remove the appointment
+            
             _context.Appointments.Remove(appointment);
             _context.SaveChanges();
 
-           // TempData["Message"] = "Appointment cancelled successfully.";
+         
             return RedirectToAction("MyAppointments");
         }
 
