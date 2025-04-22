@@ -10,7 +10,7 @@
                 var adminUser = new User
                 {
                     UserName = "admin",
-                    Password = "admin123",
+                    Password = "admin@123",
                     IsAdmin = true
                 };
                 context.Users.Add(adminUser);
