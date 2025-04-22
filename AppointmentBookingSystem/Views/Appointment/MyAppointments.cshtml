@@ -17,6 +17,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Doctor Name</th>
             <th>Start Time</th>
             <th>End Time</th>
             <th>Status</th>
@@ -27,6 +28,8 @@
         @foreach (var appointment in Model)
         {
             <tr>
+                <td>@appointment.Slot.DoctorName</td>
+
                 <td>@appointment.Slot.StartTime</td>
                 <td>@appointment.Slot.EndTime</td>
                 <td>@(appointment.Slot.IsBooked ? "Booked" : "Available")</td>

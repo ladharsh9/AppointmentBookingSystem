@@ -152,13 +152,20 @@ namespace AppointmentBookingSystem.Controllers
                 .Select(s => new ManageDTO//new
                 {
                     Id = s.Id,
+                    DoctorName = s.DoctorName,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime,
                     IsBooked = s.IsBooked,
-                    UserName = _context.Appointments
-                        .Where(a => a.SlotId == s.Id)
-                        .Select(a => a.User.UserName)
-                        .FirstOrDefault()//till here
+                    //UserName = _context.Appointments
+                    //    .Where(a => a.SlotId == s.Id)
+                    //    .Select(a => a.User.UserName)
+                    //    .FirstOrDefault()//till here
+                    UserName = s.IsBooked
+                        ? _context.Appointments
+                            .Where(a => a.SlotId == s.Id)
+                            .Select(a => a.User.UserName)
+                            .FirstOrDefault()
+                        : null,
                 }).ToList();
             return View(slots);
         }

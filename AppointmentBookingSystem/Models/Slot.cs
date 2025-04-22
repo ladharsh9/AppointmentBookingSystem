@@ -7,8 +7,8 @@ namespace AppointmentBookingSystem.Models
     public class Slot
     {
         public int Id { get; set; }
+        public string DoctorName { get; set; }
 
-       
         public DateTime StartTime { get; set; }
 
        

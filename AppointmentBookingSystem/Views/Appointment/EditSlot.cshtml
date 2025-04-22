@@ -4,11 +4,20 @@
 @{
 }
 @model AppointmentBookingSystem.Models.Slot
-
-<h2>Edit Slot</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Edit Slot</h2>
 
 <form asp-action="EditSlot" method="post">
     <input type="hidden" asp-for="Id" />
+
+    <div class="form-group" >
+        <label>Doctor Name</label>
+        <input asp-for="DoctorName" class="form-control" />
+       
+    </div>
+
     <div class="form-group">
         <label>Start Time</label>
         <input asp-for="StartTime" type="datetime-local" class="form-control" />
@@ -17,13 +26,17 @@
         <label>End Time</label>
         <input asp-for="EndTime" type="datetime-local" class="form-control" />
     </div>
-    <div class="form-group">
+                <div class="form-group ">
         <label>Is Booked</label>
         <input asp-for="IsBooked" type="checkbox" />
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
+    <button type="reset" class="btn btn-secondary"> <a asp-controller="Appointment" asp-action="ManageSlots" style="color:white; text-decoration:none;">Cancel</a></button>
 </form>
 @if (ViewBag.Error != null)
 {
     <div class="alert alert-danger">@ViewBag.Error</div>
 }
+        </div>
+    </div>
+</div>
