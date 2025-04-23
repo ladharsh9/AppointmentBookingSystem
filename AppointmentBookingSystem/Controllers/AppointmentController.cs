@@ -17,11 +17,11 @@ namespace AppointmentBookingSystem.Controllers
         public ActionResult Book()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
-            //if (Session["UserId"] == null)
+            
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            var slots = _context.Slots.ToList(); //.Where(s => !s.IsBooked)
+            var slots = _context.Slots.ToList(); 
             return View(slots);
         }
         [HttpPost]
@@ -69,7 +69,7 @@ namespace AppointmentBookingSystem.Controllers
                 TempData["Message"] = "Slot is already booked!";
                 return RedirectToAction("Book");
             }
-            // Check if user already has an appointment for the same slot
+            
             bool alreadyBooked = _context.Appointments.Any(a => a.SlotId == slotId);
             if (alreadyBooked)
             {
@@ -77,14 +77,14 @@ namespace AppointmentBookingSystem.Controllers
                 return RedirectToAction("Book");
             }
 
-            // Create appointment
+          
             var appointment = new Appointment
             {
                 SlotId = slotId,
                 UserId = userId.Value
             };
 
-            // Mark slot as booked
+           
             slot.IsBooked = true;
             _context.Appointments.Add(appointment);
             _context.SaveChanges();
